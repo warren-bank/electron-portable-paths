@@ -43,7 +43,7 @@ npm install --save "@warren-bank/electron-win-portable-paths"
   ```javascript
     import setPortablePaths from '@warren-bank/electron-win-portable-paths'
 
-    if ((! setPortablePaths(app, argv['data-dir'])) && (argv['data-dir'])) {
+    if (!setPortablePaths(app, argv['data-dir']) && argv['data-dir']) {
       app.setPath('userData', path.resolve(argv['data-dir']));
     }
   ```
