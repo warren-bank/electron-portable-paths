@@ -10,7 +10,7 @@ npm install --save "@warren-bank/electron-win-portable-paths"
 
 #### Usage:
 
-* file: `./webpack.config.js`
+* file: `./webpack.config.js`<br><br>
   ```javascript
     module.exports = {
       entry: './src/main.js',
@@ -20,7 +20,7 @@ npm install --save "@warren-bank/electron-win-portable-paths"
       }
     }
   ```
-* file: `./electron-builder.json`
+* file: `./electron-builder.json`<br><br>
   ```javascript
     {
       "directories": {
@@ -39,7 +39,7 @@ npm install --save "@warren-bank/electron-win-portable-paths"
       }
     }
   ```
-* file: `./src/main.js`
+* file: `./src/main.js`<br><br>
   ```javascript
     import setPortablePaths from '@warren-bank/electron-win-portable-paths'
 
