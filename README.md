@@ -8,6 +8,23 @@ Function to perform Electron boilerplate to configure directory paths for 'porta
 npm install --save "@warren-bank/electron-win-portable-paths"
 ```
 
+#### API:
+
+* `success = setPortablePaths(app, rootPath, blacklist)`
+  * input parameters:
+    * required:
+      * [_app_](https://electronjs.org/docs/api/app)
+    * optional:
+      * _rootPath_: string
+        * path to custom root directory
+          * used to contain all remapped ["special" directories](https://electronjs.org/docs/api/app#appgetpathname)
+        * default value: `./${app.getName()}`
+      * _blacklist_: Array of string
+        * list of ["special" directories](https://electronjs.org/docs/api/app#appgetpathname) that should __not__ be remapped from the default system-dependent path
+  * output value:
+    * _boolean_
+      * indicates whether paths have been successfully remapped
+
 #### Usage:
 
 * file: `./webpack.config.js`<br><br>
@@ -41,11 +58,10 @@ npm install --save "@warren-bank/electron-win-portable-paths"
   ```
 * file: `./src/main.js`<br><br>
   ```javascript
-    import setPortablePaths from '@warren-bank/electron-win-portable-paths'
+    const {setPortablePaths} = require('@warren-bank/electron-win-portable-paths')
 
-    if (!setPortablePaths(app, argv['data-dir']) && argv['data-dir']) {
-      app.setPath('userData', path.resolve(argv['data-dir']));
-    }
+    if (!setPortablePaths(app, argv['data-dir'], ["documents","downloads"]) && argv['data-dir'])
+      app.setPath('userData', path.resolve(argv['data-dir']))
   ```
 
 #### Legal:

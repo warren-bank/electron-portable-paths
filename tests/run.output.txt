@@ -1,0 +1,39 @@
+defaults: {
+  "home": "X:\\portable\\testApp",
+  "appData": "X:\\portable\\testApp",
+  "userData": "X:\\portable\\testApp",
+  "temp": "X:\\portable\\testApp\\temp",
+  "desktop": "X:\\portable\\testApp\\desktop",
+  "documents": "X:\\portable\\testApp\\documents",
+  "downloads": "X:\\portable\\testApp\\downloads",
+  "music": "X:\\portable\\testApp\\music",
+  "pictures": "X:\\portable\\testApp\\pictures",
+  "videos": "X:\\portable\\testApp\\videos",
+  "logs": "X:\\portable\\testApp\\logs"
+}
+custom: {
+  "home": "Y:\\custom\\portable\\root-dir",
+  "appData": "Y:\\custom\\portable\\root-dir",
+  "userData": "Y:\\custom\\portable\\root-dir",
+  "temp": "Y:\\custom\\portable\\root-dir\\temp",
+  "desktop": "Y:\\custom\\portable\\root-dir\\desktop",
+  "documents": "Y:\\custom\\portable\\root-dir\\documents",
+  "downloads": "Y:\\custom\\portable\\root-dir\\downloads",
+  "music": "Y:\\custom\\portable\\root-dir\\music",
+  "pictures": "Y:\\custom\\portable\\root-dir\\pictures",
+  "videos": "Y:\\custom\\portable\\root-dir\\videos",
+  "logs": "Y:\\custom\\portable\\root-dir\\logs"
+}
+blacklist: {
+  "home": "X:\\portable\\testApp",
+  "appData": "X:\\portable\\testApp",
+  "userData": "X:\\portable\\testApp",
+  "temp": "X:\\portable\\testApp\\temp",
+  "desktop": "X:\\portable\\testApp\\desktop",
+  "documents": "C:\\path\\to\\native\\documents",
+  "downloads": "C:\\path\\to\\native\\downloads",
+  "music": "X:\\portable\\testApp\\music",
+  "pictures": "X:\\portable\\testApp\\pictures",
+  "videos": "X:\\portable\\testApp\\videos",
+  "logs": "X:\\portable\\testApp\\logs"
+}

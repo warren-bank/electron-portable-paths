@@ -1,6 +1,15 @@
-import path from 'path'
+const path = require('path')
 
-export default function set_portable_paths(app, rootPath) {
+const filter_array = function(blacklist, arr) {
+  if (!Array.isArray(arr))       return []
+  if (!Array.isArray(blacklist)) return arr
+  if (!arr.length)               return arr
+  if (!blacklist.length)         return arr
+
+  return arr.filter(val => blacklist.indexOf(val) === -1)
+}
+
+const set_portable_paths = function(app, rootPath, blacklist) {
   if (! process.env.PORTABLE_EXECUTABLE_DIR) return false
 
   if (! rootPath) {
@@ -8,13 +17,15 @@ export default function set_portable_paths(app, rootPath) {
   }
   rootPath = path.resolve(rootPath)
 
-  ;["home","appData","userData"].forEach(key => {
+  filter_array(blacklist, ["home","appData","userData"]).forEach(key => {
     app.setPath(key, rootPath)
   })
 
-  ;["temp","desktop","documents","downloads","music","pictures","videos","logs"].forEach(key => {
+  filter_array(blacklist, ["temp","desktop","documents","downloads","music","pictures","videos","logs"]).forEach(key => {
     app.setPath(key, path.join(rootPath, key))
   })
 
   return true
 }
+
+module.exports = {setPortablePaths: set_portable_paths}
