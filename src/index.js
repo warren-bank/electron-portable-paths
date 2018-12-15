@@ -10,6 +10,7 @@ const filter_array = function(blacklist, arr) {
 }
 
 const set_portable_paths = function(app, rootPath, blacklist) {
+  if (! app)                                 return false
   if (! process.env.PORTABLE_EXECUTABLE_DIR) return false
 
   if (! rootPath) {
@@ -29,6 +30,7 @@ const set_portable_paths = function(app, rootPath, blacklist) {
 }
 
 const make_portable = function(app) {
+  if (! app)                               return false
   if (process.env.PORTABLE_EXECUTABLE_DIR) return false
 
   const rootPath = path.dirname(

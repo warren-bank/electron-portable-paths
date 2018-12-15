@@ -1,14 +1,25 @@
-### [electron-win-portable-paths](https://github.com/warren-bank/electron-win-portable-paths)
+### [electron-portable-paths](https://github.com/warren-bank/electron-portable-paths)
 
-Function to perform Electron boilerplate to configure directory paths for 'portable' target of Windows builds
+Cross-platform helper functions to perform Electron boilerplate to configure 'special directory' paths relative to the executable
 
 #### Installation:
 
 ```bash
-npm install --save "@warren-bank/electron-win-portable-paths"
+npm install --save "@warren-bank/electron-portable-paths"
 ```
 
 #### API:
+
+* `success = makePortable(app)`
+  * input parameters:
+    * required:
+      * [_app_](https://electronjs.org/docs/api/app)
+  * output value:
+    * _boolean_
+      * indicates whether a non-portable build has been configured in such a way that its paths can now be remapped by `setPortablePaths`
+  * notes:
+    * works across all platforms
+    * has no effect when the Electron executable is a Windows `portable` target
 
 * `success = setPortablePaths(app, rootPath, blacklist)`
   * input parameters:
@@ -24,53 +35,28 @@ npm install --save "@warren-bank/electron-win-portable-paths"
   * output value:
     * _boolean_
       * indicates whether paths have been successfully remapped
-
-#### API (experimental):
-
-* `success = makePortable(app)`
-  * input parameters:
-    * required:
-      * [_app_](https://electronjs.org/docs/api/app)
-  * output value:
-    * _boolean_
-      * indicates whether a non-portable build has been configured in such a way that its paths can now be remapped by `setPortablePaths`
   * notes:
-    * this _should_ work across all platforms
+    * only has effect when any of the following conditions are true:
+      * the Electron executable is a Windows `portable` target
+      * `makePortable` was previously called
 
-#### Usage:
+#### Usage Example (basic):
 
-* file: `./webpack.config.js`<br><br>
-  ```javascript
-    module.exports = {
-      entry: './src/main.js',
-      output: {
-        path: path.join(__dirname, 'src'),
-        filename: '[name]_bundle.js'
-      }
-    }
-  ```
-* file: `./electron-builder.json`<br><br>
-  ```javascript
-    {
-      "directories": {
-        "app": "src"
-      },
-      "files": [
-        "main_bundle.js"
-      ],
-      "win": {
-        "target": [
-          "portable"
-        ]
-      },
-      "portable": {
-        "artifactName": "${name}-${version}-${arch}-portable.${ext}"
-      }
-    }
-  ```
 * file: `./src/main.js`<br><br>
   ```javascript
-    const {makePortable, setPortablePaths} = require('@warren-bank/electron-win-portable-paths')
+    const {app} = require('electron')
+    const {makePortable, setPortablePaths} = require('@warren-bank/electron-portable-paths')
+
+    makePortable(app)
+    setPortablePaths(app)
+  ```
+
+#### Usage Example (advanced):
+
+* file: `./src/main.js`<br><br>
+  ```javascript
+    const {app} = require('electron')
+    const {makePortable, setPortablePaths} = require('@warren-bank/electron-portable-paths')
 
     const parseArgv = require('yargs').parse
     const argv = parseArgv(process.argv.slice(1))
