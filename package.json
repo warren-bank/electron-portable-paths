@@ -1,6 +1,6 @@
 {
   "name": "@warren-bank/electron-win-portable-paths",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "src/index.js",
   "description": "Function to perform Electron boilerplate to configure directory paths for 'portable' target of Windows builds",
   "author": "Warren Bank (https://github.com/warren-bank)",

@@ -25,6 +25,18 @@ npm install --save "@warren-bank/electron-win-portable-paths"
     * _boolean_
       * indicates whether paths have been successfully remapped
 
+#### API (experimental):
+
+* `success = makePortable(app)`
+  * input parameters:
+    * required:
+      * [_app_](https://electronjs.org/docs/api/app)
+  * output value:
+    * _boolean_
+      * indicates whether a non-portable build has been configured in such a way that its paths can now be remapped by `setPortablePaths`
+  * notes:
+    * this _should_ work across all platforms
+
 #### Usage:
 
 * file: `./webpack.config.js`<br><br>
@@ -58,7 +70,13 @@ npm install --save "@warren-bank/electron-win-portable-paths"
   ```
 * file: `./src/main.js`<br><br>
   ```javascript
-    const {setPortablePaths} = require('@warren-bank/electron-win-portable-paths')
+    const {makePortable, setPortablePaths} = require('@warren-bank/electron-win-portable-paths')
+
+    const parseArgv = require('yargs').parse
+    const argv = parseArgv(process.argv.slice(1))
+
+    if (argv['portable'])
+      makePortable(app)
 
     if (!setPortablePaths(app, argv['data-dir'], ["documents","downloads"]) && argv['data-dir'])
       app.setPath('userData', path.resolve(argv['data-dir']))

@@ -28,4 +28,22 @@ const set_portable_paths = function(app, rootPath, blacklist) {
   return true
 }
 
-module.exports = {setPortablePaths: set_portable_paths}
+const make_portable = function(app) {
+  if (process.env.PORTABLE_EXECUTABLE_DIR) return false
+
+  const rootPath = path.dirname(
+    path.resolve(
+      app.getPath('exe')
+    )
+  )
+
+  process.env.PORTABLE_EXECUTABLE_DIR = rootPath
+//process.stdout.write('portable dir: ' + process.env.PORTABLE_EXECUTABLE_DIR + "\n")
+
+  return true
+}
+
+module.exports = {
+  setPortablePaths: set_portable_paths,
+  makePortable:     make_portable
+}
