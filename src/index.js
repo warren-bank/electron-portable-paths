@@ -1,5 +1,27 @@
 const path = require('path')
 
+let PORTABLE_EXECUTABLE_DIR = null
+
+// -----------------------------------------------------------------------------
+
+const make_portable = function(app) {
+  if (! app)                               return false
+  if (process.env.PORTABLE_EXECUTABLE_DIR) return false
+
+  const rootPath = path.dirname(
+    path.resolve(
+      app.getPath('exe')
+    )
+  )
+
+  PORTABLE_EXECUTABLE_DIR = rootPath
+//process.stdout.write('portable dir: ' + PORTABLE_EXECUTABLE_DIR + "\n")
+
+  return true
+}
+
+// -----------------------------------------------------------------------------
+
 const filter_array = function(blacklist, arr) {
   if (!Array.isArray(arr))       return []
   if (!Array.isArray(blacklist)) return arr
@@ -10,11 +32,13 @@ const filter_array = function(blacklist, arr) {
 }
 
 const set_portable_paths = function(app, rootPath, blacklist) {
-  if (! app)                                 return false
-  if (! process.env.PORTABLE_EXECUTABLE_DIR) return false
+  const basePath = process.env.PORTABLE_EXECUTABLE_DIR || PORTABLE_EXECUTABLE_DIR
+
+  if (! app)      return false
+  if (! basePath) return false
 
   if (! rootPath) {
-    rootPath = path.join(process.env.PORTABLE_EXECUTABLE_DIR, app.getName())
+    rootPath = path.join(basePath, app.getName())
   }
   rootPath = path.resolve(rootPath)
 
@@ -29,23 +53,9 @@ const set_portable_paths = function(app, rootPath, blacklist) {
   return true
 }
 
-const make_portable = function(app) {
-  if (! app)                               return false
-  if (process.env.PORTABLE_EXECUTABLE_DIR) return false
-
-  const rootPath = path.dirname(
-    path.resolve(
-      app.getPath('exe')
-    )
-  )
-
-  process.env.PORTABLE_EXECUTABLE_DIR = rootPath
-//process.stdout.write('portable dir: ' + process.env.PORTABLE_EXECUTABLE_DIR + "\n")
-
-  return true
-}
+// -----------------------------------------------------------------------------
 
 module.exports = {
-  setPortablePaths: set_portable_paths,
-  makePortable:     make_portable
+  makePortable:     make_portable,
+  setPortablePaths: set_portable_paths
 }

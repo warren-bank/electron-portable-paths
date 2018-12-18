@@ -1,6 +1,6 @@
 {
   "name": "@warren-bank/electron-portable-paths",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "src/index.js",
   "description": "Cross-platform helper functions to perform Electron boilerplate to configure 'special directory' paths relative to the executable",
   "author": "Warren Bank (https://github.com/warren-bank)",
