@@ -3,6 +3,6 @@ const app                = require('./mock/app')
 
 process.env.PORTABLE_EXECUTABLE_DIR = 'X:\\portable'
 
-setPortablePaths(app)
+setPortablePaths(app, false)
 
 console.log('defaults:', app.toString())
