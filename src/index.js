@@ -1,4 +1,5 @@
 const path = require('path')
+const fs   = require('fs')
 
 let PORTABLE_EXECUTABLE_DIR = null
 
@@ -31,8 +32,20 @@ const filter_array = function(blacklist, arr) {
   return arr.filter(val => blacklist.indexOf(val) === -1)
 }
 
-const set_portable_paths = function(app, rootPath, blacklist) {
+const process_path = function(app, make_dirs, key, dirPath) {
+  if (make_dirs) {
+    try {
+      fs.mkdirSync(dirPath)
+    }
+    catch(err) {}  // ignore: (err.code === 'EEXIST')
+  }
+
+  app.setPath(key, dirPath)
+}
+
+const set_portable_paths = function(app=null, make_dirs=true, rootPath, blacklist) {
   const basePath = process.env.PORTABLE_EXECUTABLE_DIR || PORTABLE_EXECUTABLE_DIR
+  let dirPath
 
   if (! app)      return false
   if (! basePath) return false
@@ -43,11 +56,13 @@ const set_portable_paths = function(app, rootPath, blacklist) {
   rootPath = path.resolve(rootPath)
 
   filter_array(blacklist, ["home","appData","userData"]).forEach(key => {
-    app.setPath(key, rootPath)
+    dirPath = rootPath
+    process_path(app, make_dirs, key, dirPath)
   })
 
   filter_array(blacklist, ["temp","desktop","documents","downloads","music","pictures","videos","logs"]).forEach(key => {
-    app.setPath(key, path.join(rootPath, key))
+    dirPath = path.join(rootPath, key)
+    process_path(app, make_dirs, key, dirPath)
   })
 
   return true

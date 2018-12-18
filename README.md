@@ -21,11 +21,15 @@ npm install --save "@warren-bank/electron-portable-paths"
     * works across all platforms
     * has no effect when the Electron executable is a Windows `portable` target
 
-* `success = setPortablePaths(app, rootPath, blacklist)`
+* `success = setPortablePaths(app, make_dirs, rootPath, blacklist)`
   * input parameters:
     * required:
       * [_app_](https://electronjs.org/docs/api/app)
     * optional:
+      * _make_dirs_: boolean
+        * allow the creation of all remapped ["special" directories](https://electronjs.org/docs/api/app#appgetpathname) that do not already exist
+          * Electron will often choose to ignore a directory path when it cannot be found
+        * default value: `true`
       * _rootPath_: string
         * path to custom root directory
           * used to contain all remapped ["special" directories](https://electronjs.org/docs/api/app#appgetpathname)
@@ -64,7 +68,7 @@ npm install --save "@warren-bank/electron-portable-paths"
     if (argv['portable'])
       makePortable(app)
 
-    if (!setPortablePaths(app, argv['data-dir'], ["documents","downloads"]) && argv['data-dir'])
+    if (!setPortablePaths(app, true, argv['data-dir'], ["documents","downloads"]) && argv['data-dir'])
       app.setPath('userData', path.resolve(argv['data-dir']))
   ```
 
