@@ -1,6 +1,48 @@
 ### [electron-portable-paths](https://github.com/warren-bank/electron-portable-paths)
 
-Cross-platform helper functions to perform Electron boilerplate to configure 'special directory' paths relative to the executable
+Cross-platform helper functions to perform Electron boilerplate to configure ["special" directory paths](https://electronjs.org/docs/api/app#appgetpathname) relative to the executable
+
+#### Resulting Directory Structure
+
+```bash
+> tree . /F /A
+```
+
+```text
+C:\PortableApps\${productName}Portable
+|   ${productName}.exe
+|
+\---${productName}
+    |   Cookies
+    |   Cookies-journal
+    |
+    +---blob_storage
+    |   \---aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa
+    +---Cache
+    |       data_0
+    |       data_1
+    |       data_2
+    |       data_3
+    |       f_000001
+    |       index
+    |
+    +---desktop
+    +---documents
+    +---downloads
+    +---GPUCache
+    |       data_0
+    |       data_1
+    |       data_2
+    |       data_3
+    |       index
+    |
+    +---logs
+    +---music
+    +---pictures
+    +---temp
+    +---videos
+    \---webrtc_event_logs
+```
 
 #### Installation:
 
