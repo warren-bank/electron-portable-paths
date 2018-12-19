@@ -1,5 +1,8 @@
 const path = require('path')
-const fs   = require('fs')
+//const fs   = require('fs')
+
+const shims     = {}
+shims.mkdirSync = require('./shims/mkdirSync')
 
 let PORTABLE_EXECUTABLE_DIR = null
 
@@ -35,7 +38,8 @@ const filter_array = function(blacklist, arr) {
 const process_path = function(app, make_dirs, key, dirPath) {
   if (make_dirs) {
     try {
-      fs.mkdirSync(dirPath, {recursive: true})  // "recursive" option requires Node v10.12.0 (https://nodejs.org/api/fs.html#fs_fs_mkdirsync_path_options)
+      //fs.mkdirSync(dirPath, {recursive: true})  // "recursive" option requires Node v10.12.0 (https://nodejs.org/api/fs.html#fs_fs_mkdirsync_path_options)
+      shims.mkdirSync(dirPath, {recursive: true})
     }
     catch(err) {}  // ignore: (err.code === 'EEXIST')
   }
