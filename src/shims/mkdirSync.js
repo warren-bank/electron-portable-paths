@@ -1,6 +1,12 @@
 // https://nodejs.org/api/fs.html#fs_fs_mkdirsync_path_options
 //    "recursive" option requires Node v10.12.0
 
+// https://www.npmjs.com/package/electron
+//    current Electron release: v3.0.13
+// https://github.com/electron/node#node-in-electron
+//    Electron v3.0.x embeds: Node v10.2.0
+//    Electron v4.0.x embeds: Node v10.11.0
+
 // https://stackoverflow.com/a/40686853
 //    shim
 

@@ -81,7 +81,7 @@ npm install --save "@warren-bank/electron-portable-paths"
       * _blacklist_: Array of string
         * list of ["special" directories](https://electronjs.org/docs/api/app#appgetpathname) that should __not__ be remapped from the default system-dependent path
       * _allow_remapping_into_blacklisted_parent_directory_: boolean
-        * based on the _resulting data structure_
+        * based on the [_resulting directory structure_](#resulting-directory-structure)
           * allow ["special" directory keys](https://electronjs.org/docs/api/app#appgetpathname) to be remapped to a portable directory path that itself is __not__ mapped to any corresponding key(s) due to the _blacklist_
         * default value: `true`
   * output value:
