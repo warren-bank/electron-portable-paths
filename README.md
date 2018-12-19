@@ -13,35 +13,37 @@ C:\PortableApps\${productName}Portable
 |   ${productName}.exe
 |
 \---${productName}
-    |   Cookies
-    |   Cookies-journal
-    |
-    +---blob_storage
-    |   \---aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa
-    +---Cache
-    |       data_0
-    |       data_1
-    |       data_2
-    |       data_3
-    |       f_000001
-    |       index
-    |
-    +---desktop
-    +---documents
-    +---downloads
-    +---GPUCache
-    |       data_0
-    |       data_1
-    |       data_2
-    |       data_3
-    |       index
-    |
-    +---logs
-    +---music
-    +---pictures
-    +---temp
-    +---videos
-    \---webrtc_event_logs
+    +---data
+    |   |   Cookies
+    |   |   Cookies-journal
+    |   |
+    |   +---blob_storage
+    |   |   \---aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa
+    |   +---Cache
+    |   |       data_0
+    |   |       data_1
+    |   |       data_2
+    |   |       data_3
+    |   |       f_000001
+    |   |       index
+    |   |
+    |   +---GPUCache
+    |   |       data_0
+    |   |       data_1
+    |   |       data_2
+    |   |       data_3
+    |   |       index
+    |   |
+    |   +---temp
+    |   \---webrtc_event_logs
+    +---home
+    |   +---desktop
+    |   +---documents
+    |   +---downloads
+    |   +---music
+    |   +---pictures
+    |   \---videos
+    \---logs
 ```
 
 #### Installation:
@@ -63,7 +65,7 @@ npm install --save "@warren-bank/electron-portable-paths"
     * works across all platforms
     * has no effect when the Electron executable is a Windows `portable` target
 
-* `success = setPortablePaths(app, make_dirs, rootPath, blacklist)`
+* `success = setPortablePaths(app, make_dirs, rootPath, blacklist, allow_remapping_into_blacklisted_parent_directory)`
   * input parameters:
     * required:
       * [_app_](https://electronjs.org/docs/api/app)
@@ -78,6 +80,10 @@ npm install --save "@warren-bank/electron-portable-paths"
         * default value: `./${app.getName()}`
       * _blacklist_: Array of string
         * list of ["special" directories](https://electronjs.org/docs/api/app#appgetpathname) that should __not__ be remapped from the default system-dependent path
+      * _allow_remapping_into_blacklisted_parent_directory_: boolean
+        * based on the _resulting data structure_
+          * allow ["special" directory keys](https://electronjs.org/docs/api/app#appgetpathname) to be remapped to a portable directory path that itself is __not__ mapped to any corresponding key(s) due to the _blacklist_
+        * default value: `true`
   * output value:
     * _boolean_
       * indicates whether paths have been successfully remapped
