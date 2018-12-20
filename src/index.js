@@ -18,6 +18,22 @@ const make_portable = function(app) {
     )
   )
 
+  // =============
+  // special-case:
+  // =============
+  // * macOS Application Bundle
+  //   - https://developer.apple.com/library/archive/documentation/CoreFoundation/Conceptual/CFBundles/BundleTypes/BundleTypes.html#//apple_ref/doc/uid/10000123i-CH101-SW19
+  // =============
+  {
+    const case_pattern = new RegExp('\.app/Contents/MacOS$', 'i')
+
+    if (case_pattern.test(rootPath)) {
+      rootPath = path.dirname(
+        rootPath.replace(case_pattern, '')
+      )
+    }
+  }
+
   PORTABLE_EXECUTABLE_DIR = rootPath
 //process.stdout.write('portable dir: ' + PORTABLE_EXECUTABLE_DIR + "\n")
 
