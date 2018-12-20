@@ -1,5 +1,5 @@
 const path = require('path')
-//const fs   = require('fs')
+const fs   = require('fs')
 
 const shims     = {}
 shims.mkdirSync = require('./shims/mkdirSync')
@@ -36,15 +36,20 @@ const filter_array = function(blacklist, arr) {
 }
 
 const process_path = function(app, make_dirs, key, dirPath) {
-  if (make_dirs) {
-    try {
+  try {
+    if (make_dirs) {
       //fs.mkdirSync(dirPath, {recursive: true})  // "recursive" option requires Node v10.12.0 (https://nodejs.org/api/fs.html#fs_fs_mkdirsync_path_options)
       shims.mkdirSync(dirPath, {recursive: true})
-    }
-    catch(err) {}  // ignore: (err.code === 'EEXIST')
-  }
 
-  app.setPath(key, dirPath)
+      fs.accessSync(dirPath, fs.constants.F_OK | fs.constants.W_OK)
+    }
+    else {
+      fs.accessSync(dirPath, fs.constants.W_OK)
+    }
+
+    app.setPath(key, dirPath)
+  }
+  catch(err) {}
 }
 
 const set_portable_paths = function(app=null, make_dirs=true, rootPath='', blacklist=null, allow_remapping_into_blacklisted_parent_directory=true) {
