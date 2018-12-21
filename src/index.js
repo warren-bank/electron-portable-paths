@@ -12,7 +12,7 @@ const make_portable = function(app) {
   if (! app)                               return false
   if (process.env.PORTABLE_EXECUTABLE_DIR) return false
 
-  const rootPath = path.dirname(
+  let rootPath = path.dirname(
     path.resolve(
       app.getPath('exe')
     )
@@ -43,6 +43,9 @@ const make_portable = function(app) {
   // =============
   {
     if (process.env.APPIMAGE) {
+      //process.stdout.write('APPIMAGE: ' + process.env.APPIMAGE + "\n")
+      //process.stdout.write('APPDIR: ' + process.env.APPDIR + "\n")
+
       rootPath = path.dirname(
         path.resolve(
           process.env.APPIMAGE
@@ -52,7 +55,7 @@ const make_portable = function(app) {
   }
 
   PORTABLE_EXECUTABLE_DIR = rootPath
-//process.stdout.write('portable dir: ' + PORTABLE_EXECUTABLE_DIR + "\n")
+  //process.stdout.write('PORTABLE_EXECUTABLE_DIR: ' + PORTABLE_EXECUTABLE_DIR + "\n")
 
   return true
 }
@@ -68,6 +71,18 @@ const filter_array = function(blacklist, arr) {
   return arr.filter(val => blacklist.indexOf(val) === -1)
 }
 
+const find_root_dir = function(dirPath) {
+  if (fs.accessSync(dirPath, fs.constants.F_OK))
+    return dirPath
+  else {
+    let parentPath = path.dirname(dirPath)
+    if (parentPath === dirPath)
+      return false
+    else
+      return find_root_dir(parentPath)
+  }
+}
+
 const process_path = function(app, make_dirs, key, dirPath) {
   try {
     if (make_dirs) {
@@ -77,6 +92,9 @@ const process_path = function(app, make_dirs, key, dirPath) {
       fs.accessSync(dirPath, fs.constants.F_OK | fs.constants.W_OK)
     }
     else {
+      dirPath = find_root_dir(dirPath)
+
+      if (!dirPath) throw new Error('')
       fs.accessSync(dirPath, fs.constants.W_OK)
     }
 
@@ -114,6 +132,34 @@ const set_portable_paths = function(app=null, make_dirs=true, rootPath='', black
         dirPath = path.join(parentPath, key)
         process_path(app, make_dirs, key, dirPath)
       })
+    }
+  }
+
+  {
+    // =============
+    // special-case:
+    // =============
+    // * Linux AppImage
+    //   - https://github.com/AppImage/AppImageKit/wiki/AppImageKit-components#runtimec
+    //   - https://github.com/AppImage/AppImageKit/issues/429#issuecomment-315136037
+    // =============
+    if (process.env.APPIMAGE) {
+      parentPath = path.join(rootPath, 'data', 'AppImage')
+
+      try {
+        const homePath   = path.join(parentPath, 'home')
+        const configPath = path.join(parentPath, 'config')
+
+        //fs.mkdirSync(homePath,   {recursive: true})  // "recursive" option requires Node v10.12.0 (https://nodejs.org/api/fs.html#fs_fs_mkdirsync_path_options)
+        //fs.mkdirSync(configPath, {recursive: true})  // "recursive" option requires Node v10.12.0 (https://nodejs.org/api/fs.html#fs_fs_mkdirsync_path_options)
+
+        shims.mkdirSync(homePath,   {recursive: true})
+        shims.mkdirSync(configPath, {recursive: true})
+
+        process.env.HOME = homePath
+        process.env.XDG_CONFIG_HOME = configPath
+      }
+      catch(err) {}
     }
   }
 
