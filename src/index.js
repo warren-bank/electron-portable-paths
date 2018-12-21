@@ -34,6 +34,23 @@ const make_portable = function(app) {
     }
   }
 
+  // =============
+  // special-case:
+  // =============
+  // * Linux AppImage
+  //   - https://github.com/AppImage/AppImageKit/wiki/AppImageKit-components#runtimec
+  //   - https://github.com/AppImage/AppImageKit/issues/429#issuecomment-315136037
+  // =============
+  {
+    if (process.env.APPIMAGE) {
+      rootPath = path.dirname(
+        path.resolve(
+          process.env.APPIMAGE
+        )
+      )
+    }
+  }
+
   PORTABLE_EXECUTABLE_DIR = rootPath
 //process.stdout.write('portable dir: ' + PORTABLE_EXECUTABLE_DIR + "\n")
 
