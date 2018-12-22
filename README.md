@@ -2,7 +2,7 @@
 
 Cross-platform helper functions to perform Electron boilerplate to configure ["special" directory paths](https://electronjs.org/docs/api/app#appgetpathname) relative to the executable
 
-#### Resulting Directory Structure
+#### Resulting Directory Structure:
 
 ```bash
 > tree . /F /A
@@ -119,6 +119,54 @@ npm install --save "@warren-bank/electron-portable-paths"
     if (!setPortablePaths(app, true, argv['data-dir'], ["documents","downloads"]) && argv['data-dir'])
       app.setPath('userData', path.resolve(argv['data-dir']))
   ```
+
+#### Build Targets (tested and working):
+
+* linux
+  * [x] tar.gz
+  * [x] deb
+  * [x] appimage
+* win
+  * [x] zip
+  * [x] portable
+  * [ ] squirrel
+* mac
+  * [ ] zip
+  * [ ] dmg
+
+__notes:__
+
+* linux
+  * deb
+    * installation:
+      ```bash
+        app_name='myapp-desktop'
+        app_productName='MyApp'
+
+        sudo apt-get install ./${app_name}.deb
+      ```
+    * observations:
+      ```bash
+        which ${app_name}
+        # /usr/local/bin/${app_name}
+
+        ls -la `which ${app_name}`
+        # /usr/local/bin/${app_name} -> /opt/${app_productName}/${app_name}
+
+        ${app_name} --portable
+
+        ls -d /opt/${app_productName}/${app_productName}
+        # No such file or directory
+
+        sudo ${app_name} --portable
+
+        ls -d /opt/${app_productName}/${app_productName}
+        # /opt/${app_productName}/${app_productName}
+      ```
+    * take-aways:
+      * when the .deb package is installed by root
+        * when the app is run by a regular user
+          * need to make sure that _rootPath_ can be created and is writable
 
 #### Legal:
 
