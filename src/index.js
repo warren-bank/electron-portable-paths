@@ -72,9 +72,11 @@ const filter_array = function(blacklist, arr) {
 }
 
 const find_root_dir = function(dirPath) {
-  if (fs.accessSync(dirPath, fs.constants.F_OK))
+  try {
+    fs.accessSync(dirPath, fs.constants.F_OK)
     return dirPath
-  else {
+  }
+  catch(err) {
     let parentPath = path.dirname(dirPath)
     if (parentPath === dirPath)
       return false
