@@ -124,15 +124,16 @@ npm install --save "@warren-bank/electron-portable-paths"
 
 * linux
   * [x] tar.gz
-  * [x] deb
   * [x] appimage
+  * [x] deb
+  * [ ] rpm
 * win
   * [x] zip
   * [x] portable
-  * [ ] squirrel
+  * [x] squirrel
 * mac
-  * [ ] zip
-  * [ ] dmg
+  * [x] zip
+  * [x] dmg
 
 __notes:__
 
@@ -166,7 +167,48 @@ __notes:__
     * take-aways:
       * when the .deb package is installed by root
         * when the app is run by a regular user
-          * need to make sure that _rootPath_ can be created and is writable
+          * need to make sure that _rootPath_:
+            * exists, or can be created
+            * is writable
+    * workaround:
+      * _electron-builder.json_:
+        ```javascript
+          {
+            "linux": {
+              "target": ["deb"]
+            },
+            "deb": {
+              "afterInstall": "build_resources/scripts/linux-package.after-install.sh",
+              "afterRemove":  "build_resources/scripts/linux-package.after-remove.sh"
+            }
+          }
+        ```
+      * _build_resources/scripts/linux-package.after-install.sh_
+        ```bash
+          #!/bin/bash
+
+          # Link to the binary
+          ln -sf '/opt/${productFilename}/${executable}' '/usr/local/bin/${executable}'
+
+          # Create default --portable directory
+          mkdir --mode=777 '/opt/${productFilename}/${productFilename}'
+        ```
+      * _build_resources/scripts/linux-package.after-remove.sh_
+        ```bash
+          #!/bin/bash
+
+          # Delete the link to the binary
+          rm -f '/usr/local/bin/${executable}'
+
+          # Delete default --portable directory
+          rm -rf '/opt/${productFilename}/${productFilename}'
+
+          # Cleanup
+          rm -rf '/opt/${productFilename}'
+        ```
+    * scope of workaround:
+      * these [_LinuxTargetSpecificOptions_](https://www.electron.build/configuration/linux#linuxtargetspecificoptions-apk-freebsd-pacman-p5p-and-rpm-options) can be applied to the following targets:
+        * `deb`, `rpm`, `freebsd`, `apk`, `pacman`, `p5p`
 
 #### Legal:
 
