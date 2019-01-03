@@ -6,3 +6,4 @@ log_file='./run.output.txt'
 node './01-defaults.js'  >>"$log_file"
 node './02-custom.js'    >>"$log_file"
 node './03-blacklist.js' >>"$log_file"
+node './04-appimage.js'  >>"$log_file"

@@ -1,39 +1,60 @@
 defaults: {
-  "home": "X:\\portable\\testApp\\home",
+  "exe": "X:\\portable\\testApp.exe",
+  "logs": "X:\\portable\\testApp\\logs",
   "appData": "X:\\portable\\testApp\\data",
   "userData": "X:\\portable\\testApp\\data",
   "temp": "X:\\portable\\testApp\\data\\temp",
+  "home": "X:\\portable\\testApp\\home",
   "desktop": "X:\\portable\\testApp\\home\\desktop",
   "documents": "X:\\portable\\testApp\\home\\documents",
   "downloads": "X:\\portable\\testApp\\home\\downloads",
   "music": "X:\\portable\\testApp\\home\\music",
   "pictures": "X:\\portable\\testApp\\home\\pictures",
-  "videos": "X:\\portable\\testApp\\home\\videos",
-  "logs": "X:\\portable\\testApp\\logs"
+  "videos": "X:\\portable\\testApp\\home\\videos"
 }
 custom: {
-  "home": "Y:\\custom\\portable\\root-dir\\home",
+  "exe": "X:\\portable\\testApp.exe",
+  "logs": "Y:\\custom\\portable\\root-dir\\logs",
   "appData": "Y:\\custom\\portable\\root-dir\\data",
   "userData": "Y:\\custom\\portable\\root-dir\\data",
   "temp": "Y:\\custom\\portable\\root-dir\\data\\temp",
+  "home": "Y:\\custom\\portable\\root-dir\\home",
   "desktop": "Y:\\custom\\portable\\root-dir\\home\\desktop",
   "documents": "Y:\\custom\\portable\\root-dir\\home\\documents",
   "downloads": "Y:\\custom\\portable\\root-dir\\home\\downloads",
   "music": "Y:\\custom\\portable\\root-dir\\home\\music",
   "pictures": "Y:\\custom\\portable\\root-dir\\home\\pictures",
-  "videos": "Y:\\custom\\portable\\root-dir\\home\\videos",
-  "logs": "Y:\\custom\\portable\\root-dir\\logs"
+  "videos": "Y:\\custom\\portable\\root-dir\\home\\videos"
 }
 blacklist: {
-  "home": "X:\\portable\\testApp\\home",
+  "exe": "X:\\portable\\testApp.exe",
+  "logs": "X:\\portable\\testApp\\logs",
   "appData": "X:\\portable\\testApp\\data",
   "userData": "X:\\portable\\testApp\\data",
   "temp": "X:\\portable\\testApp\\data\\temp",
+  "home": "X:\\portable\\testApp\\home",
   "desktop": "X:\\portable\\testApp\\home\\desktop",
   "documents": "C:\\path\\to\\native\\documents",
   "downloads": "C:\\path\\to\\native\\downloads",
   "music": "X:\\portable\\testApp\\home\\music",
   "pictures": "X:\\portable\\testApp\\home\\pictures",
-  "videos": "X:\\portable\\testApp\\home\\videos",
-  "logs": "X:\\portable\\testApp\\logs"
+  "videos": "X:\\portable\\testApp\\home\\videos"
+}
+AppImage: {
+  "exe": "/home/me/dont/play/that/testApp.AppImage",
+  "logs": "/home/me/dont/play/that/testApp/logs",
+  "appData": "/home/me/dont/play/that/testApp/data",
+  "userData": "/home/me/dont/play/that/testApp/data",
+  "temp": "/home/me/dont/play/that/testApp/data/temp",
+  "home": "/home/me/dont/play/that/testApp/home",
+  "desktop": "/home/me/dont/play/that/testApp/home/desktop",
+  "documents": "/home/me/dont/play/that/testApp/home/documents",
+  "downloads": "/home/me/dont/play/that/testApp/home/downloads",
+  "music": "/home/me/dont/play/that/testApp/home/music",
+  "pictures": "/home/me/dont/play/that/testApp/home/pictures",
+  "videos": "/home/me/dont/play/that/testApp/home/videos"
+}
+AppImage (env): {
+  "HOME": "/home/me/dont/play/that/testApp/data/AppImage/home",
+  "XDG_CONFIG_HOME": "/home/me/dont/play/that/testApp/data/AppImage/config"
 }

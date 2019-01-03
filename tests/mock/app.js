@@ -21,9 +21,15 @@ class App {
 }
 
 const paths = {}
-;["home","appData","userData","temp","desktop","documents","downloads","music","pictures","videos","logs"].forEach(key => {
+;["exe","logs","appData","userData","temp","home","desktop","documents","downloads","music","pictures","videos"].forEach(key => {
   paths[key] = `C:\\path\\to\\native\\${key}`
 })
+
+paths['exe'] = process.env.PORTABLE_EXECUTABLE_DIR
+  ? (process.env.PORTABLE_EXECUTABLE_DIR + '\\testApp.exe')
+  : process.env.APPIMAGE
+    ? process.env.APPIMAGE
+    : paths['exe']
 
 const app = new App(paths)
 
