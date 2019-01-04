@@ -87,26 +87,47 @@ const process_path__abstract = function(make_dirs, dirPath, payload) {
   if (! dirPath)                     return false
   if (typeof payload !== 'function') return false
 
+  const access = {
+    F_OK: false,    // directory exists
+    W_OK: false     // directory writable (by current user)
+  }
+
   try {
-    if (make_dirs) {
-      // fs.mkdirSync(dirPath, {recursive: true})  // "recursive" option requires Node v10.12.0 (https://nodejs.org/api/fs.html#fs_fs_mkdirsync_path_options)
-      shims.mkdirSync(dirPath, {recursive: true})
+    fs.accessSync(dirPath, fs.constants.F_OK)
+    access.F_OK = true
 
-      fs.accessSync(dirPath, fs.constants.F_OK | fs.constants.W_OK)
+    fs.accessSync(dirPath, fs.constants.W_OK)
+    access.W_OK = true
+  }
+  catch(err) {}
+
+  if (! access.F_OK) {
+    try {
+      if (make_dirs) {
+        // fs.mkdirSync(dirPath, {recursive: true})  // "recursive" option requires Node v10.12.0 (https://nodejs.org/api/fs.html#fs_fs_mkdirsync_path_options)
+        shims.mkdirSync(dirPath, {recursive: true})
+
+        fs.accessSync(dirPath, fs.constants.F_OK | fs.constants.W_OK)
+        access.F_OK = true
+        access.W_OK = true
+      }
+      else {
+        dirPath = find_root_dir(dirPath)
+
+        if (!dirPath) throw new Error('')
+        fs.accessSync(dirPath, fs.constants.W_OK)
+        access.W_OK = true
+      }
     }
-    else {
-      dirPath = find_root_dir(dirPath)
+    catch(err) {}
+  }
 
-      if (!dirPath) throw new Error('')
-      fs.accessSync(dirPath, fs.constants.W_OK)
-    }
-
+  if (access.W_OK) {
     payload()
     return true
   }
-  catch(err) {
-    return false
-  }
+
+  return false
 }
 
 const process_path__app = function(app, make_dirs, key, dirPath) {
